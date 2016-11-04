@@ -23,6 +23,12 @@ class ParseError(ValueError):
     """Exception class for tjson-specific parse errors."""
 
 
+def want_bytes(data):
+    if isinstance(data, bytes):
+        return data
+    return data.encode('utf-8')
+
+
 def raise_on_duplicate_keys(pairs):
     d = {}
     for k, v in pairs:
@@ -78,13 +84,15 @@ def unpack(obj):
         return [unpack(e) for e in obj]
     elif isinstance(obj, dict):
         rv = {}
+        binary_keys = set()
         for k in obj:
             parsed_key = parse_str(k)
             if not isinstance(parsed_key, (text_type, bytes)):
                 raise ParseError('Object member names must be text or binary')
-            elif parsed_key in rv:
+            elif want_bytes(parsed_key) in binary_keys:
                 raise ParseError('Duplicate key: %r' % parsed_key)
             rv[parsed_key] = unpack(obj[k])
+            binary_keys.add(want_bytes(parsed_key))
         return rv
     elif isinstance(obj, text_type):
         return parse_str(obj)
@@ -150,9 +158,9 @@ def _parse_b64(s):
     elif s.endswith('='):
         raise ParseError('Base64 data must not include padding')
 
-    padding = '=' * (-len(s) % 4)
+    padding = u'=' * (-len(s) % 4)
     try:
-        encoded = (s + padding).encode('ascii')
+        encoded = want_bytes(s + padding)
         return base64.urlsafe_b64decode(encoded)
     except (TypeError, ValueError):
         raise ParseError('Invalid base64-encoded data')

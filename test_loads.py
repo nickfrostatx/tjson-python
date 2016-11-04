@@ -84,6 +84,11 @@ def test_invalid_untagged_string():
     tjson.loads('["hello, world!"]')
 
 
+@parse_error("Invalid tag %r on string %r" % (u'e:', u'e:hello, world!'))
+def test_invalid_fake_tag():
+    tjson.loads('["e:hello, world!"]')
+
+
 def test_empty_base16_binary_data():
     assert tjson.loads('["b16:"]') == [b'']
 
