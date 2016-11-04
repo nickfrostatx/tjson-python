@@ -104,7 +104,6 @@ def parse_str(s):
     tag, body = s[:ndx + 1], s[ndx + 1:]
 
     if tag == 's:':
-        print(body, repr(body), repr(type(body)))
         return body
     elif tag == 'b16:':
         return _parse_b16(body)

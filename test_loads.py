@@ -43,7 +43,7 @@ def test_invalid_object_with_integer_key():
     tjson.loads('{"i:42":"s:foobar"}')
 
 
-@parse_error("Duplicate key: b'foo'")
+@parse_error('Duplicate key: %r' % b'foo')
 def test_invalid_object_with_repeated_decoded_keys():
     tjson.loads('{"b64:Zm9v":1,"b32:mzxw6":2}')
 
@@ -54,7 +54,11 @@ def test_invalid_object_with_repeated_keys():
 
 
 def test_utf8_and_binary_keys():
-    tjson.loads('{"s:foo":1,"b64:Zm9v":2}') == {u'foo': 1, b'foo': 2}
+    with pytest.raises(tjson.ParseError) as exc_info:
+        tjson.loads('{"s:foo":1,"b64:Zm9v":2}')
+    # We can't guarantee whether u'foo' or b'foo' will be added first
+    assert str(exc_info.value) in ('Duplicate key: %r' % u'foo',
+                                   'Duplicate key: %r' % b'foo')
 
 
 @parse_error('Toplevel elements other than object or array are disallowed')
