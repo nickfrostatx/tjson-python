@@ -43,8 +43,8 @@ def loads(s, **kwargs):
 
 def dumps(obj):
     if not isinstance(obj, (list, dict)):
-        raise ParseError('Toplevel elements other than object or array are '
-                         'disallowed')
+        raise EncodeError('Toplevel elements other than object or array are '
+                          'disallowed')
     return json.dumps(pack(obj))
 
 
