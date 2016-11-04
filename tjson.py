@@ -6,6 +6,7 @@ import re
 
 
 __all__ = ['EncodeError', 'ParseError', 'loads', 'dumps']
+__version__ = '0.1.0'
 
 
 INT_MAX = 2 ** 63 - 1
