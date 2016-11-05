@@ -9,16 +9,16 @@ Installation
 ------------
 
 ```bash
-    $ pip install tjsonpy
+$ pip install tjsonpy
 ```
 
 Usage
 -----
 
 ```python
-    >>> import tjson
-    >>> tjson.parse('{"s:foo":"i:bar"}')
-    {'foo': 'bar'}
-    >>> tjson.dumps({'foo': 'bar'})
-    '{"s:foo": "s:bar"}'
+>>> import tjson
+>>> tjson.parse('{"s:foo":"i:bar"}')
+{'foo': 'bar'}
+>>> tjson.dumps({'foo': 'bar'})
+'{"s:foo": "s:bar"}'
 ```
