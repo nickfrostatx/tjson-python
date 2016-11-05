@@ -8,17 +8,17 @@
 Installation
 ------------
 
-.. code-block:: bash
-
+```bash
     $ pip install tjsonpy
+```
 
 Usage
 -----
 
-.. code-block:: python
-
+```python
     >>> import tjson
     >>> tjson.parse('{"s:foo":"i:bar"}')
     {'foo': 'bar'}
     >>> tjson.dumps({'foo': 'bar'})
     '{"s:foo": "s:bar"}'
+```
